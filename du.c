@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 
     if (argc == 0)
     {
-        puts("Usage: du-c [FILE]");
+        puts("Usage: du-c [FILE] [-b/-k/-m/-g]");
         return 0;
     }
 
