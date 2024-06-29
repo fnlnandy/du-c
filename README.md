@@ -4,18 +4,18 @@
 # How it works
 `du-c` expects you to give a file name as argument, like so:
 
-```sh
+```shell
 $ ./du-c text_file.txt
 ```
 
 And it will then print the file size:
-```sh
+```shell
 $ ./du-c text_file.txt
 943 KB -> text_file.txt
 ```
 
 By default, it will try to print the "biggest" size; however, you can force it to output the size in any "base" with an argument:
-```sh
+```shell
 $ ./du-c text_file.txt -b # Print in bytes.
 966240 B -> text_file.txt
 
@@ -39,7 +39,7 @@ Pre-requisites:
 - `make`.
 
 To build the source, just run:
-```$
+```shell
 $ make
 ```
 
