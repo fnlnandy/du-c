@@ -1,0 +1,5 @@
+du*
+!du.c
+!du.h
+*.o
+.vscode
