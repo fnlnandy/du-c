@@ -1,12 +1,20 @@
 #include <stdio.h>
+#include <string.h>
+
 #include "du.h"
+#include "file.h"
 
 int main(int argc, char **argv)
 {
-    printf("Hello, world!\n");
+    argc--, argv++;
 
-    // UNUSED(argc);
-    // UNUSED(argv);
+    if (argc == 0)
+    {
+        puts("Usage: du-c [FILE]");
+        return 0;
+    }
+
+    displayFileSize(argv[0]);
 
     return 0;
 }

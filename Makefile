@@ -4,7 +4,7 @@ GCC := gcc
 CCFLAGS := -std=c17 -Wall -Werror -O2
 LDFLAGS :=
 
-CFILES := du.c
+CFILES := du.c file.c
 OFILES := $(CFILES:%.c=%.o)
 
 all: $(DU)
