@@ -34,7 +34,7 @@ Note: The argument order does not matter, as long as the file name does not star
 Note 2: Since I'm not using floating points (*yet*) in the codebase, some files that are smaller than a forced base will display as `0`.
 
 # Compiling
-Pre-requisites:
+Prerequisites:
 - A `GCC` version that supports `C17`, any recent one should work.
 - `make`.
 
