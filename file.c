@@ -18,7 +18,7 @@ void displayFileSize(const char *filePath, enum SizeCategory forcedType)
     sizeStr = getSizeStr(sizeInfo);
 
     printf("%d %s -> %s\n", sizeInfo.sizeVal, sizeStr.sizeStr, filePath);
-    return;
+    fclose(toDisplay);
 }
 
 FILE *tryToOpenFile(const char *filePath)
