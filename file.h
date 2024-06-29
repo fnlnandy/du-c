@@ -9,7 +9,7 @@ enum SizeCategory
     BYTE,
     KILOBYTE,
     MEGABYTE,
-    GIGABYTE,
+    GIGABYTE
 };
 
 typedef struct
@@ -24,10 +24,11 @@ typedef struct
     uint32_t strLen;
 } sizestr_t;
 
-void displayFileSize(const char *filePath);
+void displayFileSize(const char *filePath, enum SizeCategory forcedType);
 FILE *tryToOpenFile(const char *filePath);
 uint32_t getFileSize(FILE *file);
 sizeinfo_t getSizeInfo(const uint32_t rawSize);
+sizeinfo_t forceSizeInfo(const uint32_t rawSize, enum SizeCategory category);
 sizestr_t getSizeStr(const sizeinfo_t sizeInfo);
 
 #endif // GUARD_FILE_H_INCLUDED

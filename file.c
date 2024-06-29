@@ -4,12 +4,19 @@
 #include "du.h"
 #include "file.h"
 
-void displayFileSize(const char *filePath)
+void displayFileSize(const char *filePath, enum SizeCategory forcedType)
 {
     FILE *toDisplay = tryToOpenFile(filePath);
     uint32_t fileSize = getFileSize(toDisplay);
-    sizeinfo_t sizeInfo = getSizeInfo(fileSize);
-    sizestr_t sizeStr = getSizeStr(sizeInfo);
+    sizeinfo_t sizeInfo;
+    sizestr_t sizeStr;
+
+    if (forcedType > GIGABYTE)
+        sizeInfo = getSizeInfo(fileSize);
+    else
+        sizeInfo = forceSizeInfo(fileSize, forcedType);
+
+    sizeStr = getSizeStr(sizeInfo);
 
     printf("%d %s -> %s\n", sizeInfo.sizeVal, sizeStr.sizeStr, filePath);
     return;
@@ -39,25 +46,38 @@ uint32_t getFileSize(FILE *file)
     return fileSize;
 }
 
+static const uint32_t sPowers[] = {1, 1024, 1048576, 1073741824};
+
 sizeinfo_t getSizeInfo(const uint32_t rawSize)
 {
-    uint32_t powers[] = {1, 1024, 1048576, 1073741824};
     sizeinfo_t sizeInfo = {.sizeVal = rawSize, .sizeCat = BYTE};
 
     // We ignore the byte, since it is the default
     // datatype.
     for (uint32_t i = GIGABYTE; i > BYTE; i--)
     {
-        if (sizeInfo.sizeVal / powers[i] > 0)
+        if (sizeInfo.sizeVal / sPowers[i] > 0)
         {
             sizeInfo.sizeCat = i;
             break;
         }
     }
 
-    sizeInfo.sizeVal /= powers[sizeInfo.sizeCat];
+    sizeInfo.sizeVal /= sPowers[sizeInfo.sizeCat];
 
     return sizeInfo;
+}
+
+sizeinfo_t forceSizeInfo(const uint32_t rawSize, enum SizeCategory category)
+{
+    sizeinfo_t forced = {.sizeVal = rawSize, .sizeCat = BYTE};
+
+    if (category == BYTE || category > GIGABYTE)
+        return forced;
+
+    forced.sizeCat = category;
+    forced.sizeVal /= sPowers[category];
+    return forced;
 }
 
 // TODO: Since this was for sprintf, we don't
