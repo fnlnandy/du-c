@@ -23,7 +23,7 @@ void displayFileSize(const char *filePath, enum SizeCategory forcedType)
 
 FILE *tryToOpenFile(const char *filePath)
 {
-    FILE *file = fopen(filePath, "r");
+    FILE *file = fopen(filePath, "rb");
 
     if (file == NULL)
         FATAL("Unable to open file: '%s'. Aborting.\n", filePath);
