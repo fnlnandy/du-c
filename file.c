@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <string.h>
 
 #include "du.h"
 #include "file.h"
