@@ -47,6 +47,10 @@ uint32_t getFileSize(FILE *file)
     return fileSize;
 }
 
+/**
+ * @brief LUT for the powers of
+ * the BYTE, namely: 2^0, 2^10, 2^20, 2^30.
+ */
 static const uint32_t sPowers[] = {1, 1024, 1048576, 1073741824};
 
 sizeinfo_t getSizeInfo(const uint32_t rawSize)
