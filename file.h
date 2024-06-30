@@ -24,7 +24,7 @@ typedef struct
     uint32_t strLen;
 } sizestr_t;
 
-void displayFileSize(const char *filePath, enum SizeCategory forcedType);
+sizeinfo_t displayFileSize(const char *filePath, enum SizeCategory forcedType);
 FILE *tryToOpenFile(const char *filePath);
 uint32_t getFileSize(FILE *file);
 sizeinfo_t getSizeInfo(const uint32_t rawSize);

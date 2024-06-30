@@ -3,6 +3,7 @@
 
 #include "du.h"
 #include "file.h"
+#include "dir.h"
 
 #define STR_EQ 0
 
@@ -36,7 +37,10 @@ int main(int argc, char **argv)
             filePath = argv[i];
     }
 
-    displayFileSize(filePath, forcedType);
+    if (filePath == NULL || strncmp(filePath, ".", 1) == STR_EQ)
+        displayDirSize(".", forcedType);
+    else
+        displayFileSize(filePath, forcedType);
 
     return 0;
 }

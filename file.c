@@ -3,7 +3,7 @@
 #include "du.h"
 #include "file.h"
 
-void displayFileSize(const char *filePath, enum SizeCategory forcedType)
+sizeinfo_t displayFileSize(const char *filePath, enum SizeCategory forcedType)
 {
     FILE *toDisplay = tryToOpenFile(filePath);
     uint32_t fileSize = getFileSize(toDisplay);
@@ -19,6 +19,8 @@ void displayFileSize(const char *filePath, enum SizeCategory forcedType)
 
     printf("%d %s -> %s\n", sizeInfo.sizeVal, sizeStr.sizeStr, filePath);
     fclose(toDisplay);
+
+    return sizeInfo;
 }
 
 FILE *tryToOpenFile(const char *filePath)
