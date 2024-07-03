@@ -2,6 +2,21 @@
 
 #include "dir.h"
 
+static char *concatenateDirPath(const char *dir, const char *nextEnt)
+{
+    const uint32_t dirLen = strlen(dir);
+    const uint32_t nextEntLen = strlen(nextEnt);
+    const uint32_t size = dirLen + nextEntLen + 1 + 2;
+    char *dirPath = malloc(size);
+
+    strcpy(dirPath, dir);
+    dirPath[dirLen] = '/';
+    strcpy(dirPath + dirLen + 1, nextEnt);
+
+    dirPath[size - 1] = '\0';
+    return dirPath;
+}
+
 sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
 {
     DIR *dir = tryToOpenDir(dirPath);
@@ -14,9 +29,9 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
         if (strncmp(entry->d_name, "..", 2) == 0 || strncmp(entry->d_name, ".", 1) == 0)
             continue;
         else if (entry->d_type == TYPE_FILE)
-            dirSize.sizeVal += displayFileSize(entry->d_name, BYTE).sizeVal;
+            dirSize.sizeVal += displayFileSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
         else if (entry->d_type == TYPE_DIR)
-            dirSize.sizeVal += displayDirSize(entry->d_name, BYTE).sizeVal;
+            dirSize.sizeVal += displayDirSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
     }
 
     // By default, the sizes are in bytes, we just need to force this
