@@ -26,7 +26,9 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
     for (entry = readdir(dir); entry != NULL; entry = readdir(dir))
     {
         // CWD and parent directory are NOT to be parsed.
-        if (strncmp(entry->d_name, "..", 2) == 0 || strncmp(entry->d_name, ".", 1) == 0)
+        if (strlen(entry->d_name) == 1 && entry->d_name[0] == '.')
+            continue;
+        if (strlen(entry->d_name) == 2 && strncmp(entry->d_name, "..", 2) == 0)
             continue;
         else if (entry->d_type == TYPE_FILE)
             dirSize.sizeVal += displayFileSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
