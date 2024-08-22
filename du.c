@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "du.h"
@@ -12,6 +13,8 @@
  */
 #define EMITARGSIZE(arg) "" arg "", sizeof(arg)
 
+static void parseProgArgs(int argc, char **argv, char **filePath, uint32_t *forcedType, boolean *ignoreHiddenFiles);
+
 int main(int argc, char **argv)
 {
     argc--, argv++;
@@ -22,28 +25,11 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    uint32_t forcedType = GIGABYTE + 1; // Aka INVALID.
     char *filePath = NULL;
+    uint32_t forcedType = GIGABYTE + 1; // Aka INVALID.
     boolean ignoreHiddenFiles = B_TRUE;
 
-    for (int i = 0; i < argc; i++)
-    {
-        if (strncmp(argv[i], EMITARGSIZE("-b")) == STR_EQ)
-            forcedType = BYTE;
-        else if (strncmp(argv[i], EMITARGSIZE("-k")) == STR_EQ)
-            forcedType = KILOBYTE;
-        else if (strncmp(argv[i], EMITARGSIZE("-m")) == STR_EQ)
-            forcedType = MEGABYTE;
-        else if (strncmp(argv[i], EMITARGSIZE("-g")) == STR_EQ)
-            forcedType = GIGABYTE;
-        else if (strncmp(argv[i], EMITARGSIZE("--show-hidden")) == STR_EQ)
-            ignoreHiddenFiles = B_FALSE;
-        // If this string is not a default argument,
-        // and not an argument, then we got our
-        // filename supposedly.
-        else if (strncmp(argv[i], "-", 1) != STR_EQ)
-            filePath = argv[i];
-    }
+    parseProgArgs(argc, argv, &filePath, &forcedType, &ignoreHiddenFiles);
 
     if (filePath == NULL || strncmp(filePath, ".", 1) == STR_EQ)
     {
@@ -65,4 +51,32 @@ int main(int argc, char **argv)
     }
 
     return 0;
+}
+
+static inline boolean isArg(const char *src, const char *targetArg)
+{
+    return strncmp(src, targetArg, strlen(targetArg)) == STR_EQ;
+}
+
+static void parseProgArgs(int argc, char **argv, char **filePath, uint32_t *forcedType, boolean *ignoreHiddenFiles)
+{
+    for (int i = 0; i < argc; ++i)
+    {
+        char *current = argv[i];
+
+        if (isArg(current, "-b"))
+            *forcedType = BYTE;
+        else if (isArg(current, "-k"))
+            *forcedType = KILOBYTE;
+        else if (isArg(current, "-m"))
+            *forcedType = MEGABYTE;
+        else if (isArg(current, "-g"))
+            *forcedType = GIGABYTE;
+        else if (isArg(current, "--show-hidden"))
+            *ignoreHiddenFiles = B_FALSE;
+        else if (current[0] != '-')
+            *filePath = current;
+        else
+            FATAL("Unrecognized argument(s). First one being: '%s'. Aborting.\n", current);
+    }
 }
