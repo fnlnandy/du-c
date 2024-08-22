@@ -37,10 +37,7 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType, boo
             continue;
 
         if (ignoreHiddenFiles == B_TRUE && strlen(entry->d_name) >= 2 && entry->d_name[0] == '.' && entry->d_name[1] != '/')
-        {
-            printf("[DEBUG]: Hidden file ignored: '%s'\n", entry->d_name);
             continue;
-        }
 
         if (entry->d_type == TYPE_FILE)
             dirSize.sizeVal += displayFileSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
