@@ -13,17 +13,12 @@
  */
 #define EMITARGSIZE(arg) "" arg "", sizeof(arg)
 
+static void printUsageAndExit(void);
 static void parseProgArgs(int argc, char **argv, char **filePath, uint32_t *forcedType, boolean *ignoreHiddenFiles);
 
 int main(int argc, char **argv)
 {
     argc--, argv++;
-
-    if (argc == 0)
-    {
-        puts("Usage: du-c [FILE] [-b/-k/-m/-g]");
-        return 0;
-    }
 
     char *filePath = NULL;
     uint32_t forcedType = GIGABYTE + 1; // Aka INVALID.
@@ -53,6 +48,12 @@ int main(int argc, char **argv)
     return 0;
 }
 
+static void printUsageAndExit(void)
+{
+    puts("Usage: du-c FILE/DIRECTORY [-b/-k/-m/-g] [--show-hidden]");
+    exit(0);
+}
+
 static inline boolean isArg(const char *src, const char *targetArg)
 {
     return strncmp(src, targetArg, strlen(targetArg)) == STR_EQ;
@@ -60,9 +61,15 @@ static inline boolean isArg(const char *src, const char *targetArg)
 
 static void parseProgArgs(int argc, char **argv, char **filePath, uint32_t *forcedType, boolean *ignoreHiddenFiles)
 {
+    if (argc == 0)
+        printUsageAndExit();
+
     for (int i = 0; i < argc; ++i)
     {
         char *current = argv[i];
+
+        if (isArg(current, "-?") || isArg(current, "-h") || isArg(current, "--help"))
+            printUsageAndExit();
 
         if (isArg(current, "-b"))
             *forcedType = BYTE;
