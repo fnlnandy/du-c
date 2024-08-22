@@ -3,8 +3,9 @@
 - [x] Add support for forced size with an argument.
 
 # Enhancements (codebase)
-- [ ] Cleanup the `main` function.
+- [x] Cleanup the `main` function.
+- [ ] Document most functions/macros/constants etc...
 
 # Enhancements (software)
-- [ ] Add support for directories as well.
+- [x] Add support for directories as well.
 - [ ] Add a recursive search feature for the current directory if no file name/directory name was passed as argument.
