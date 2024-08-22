@@ -1,4 +1,12 @@
-DU := du-c
+EXE :=
+RM  := rm -rf
+
+ifeq ($(OS),Windows_NT)
+    EXE := .exe
+    RM  := del
+endif
+
+DU := du-c$(EXE)
 
 GCC := gcc
 CCFLAGS := -std=c17 -Wall -Werror -O2
@@ -16,5 +24,5 @@ $(DU): $(OFILES)
 	$(GCC) -c $< -o $@ $(CCFLAGS)
 
 clean:
-	rm -rf $(OFILES)
-	rm -rf $(DU)
+	$(RM) $(OFILES)
+	$(RM) $(DU)
