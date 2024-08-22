@@ -38,9 +38,23 @@ int main(int argc, char **argv)
     }
 
     if (filePath == NULL || strncmp(filePath, ".", 1) == STR_EQ)
+    {
         displayDirSize(".", forcedType);
-    else
+        return 0;
+    }
+
+    DIR *stream = opendir(filePath);
+
+    // We're encountering a file, not a directory.
+    if (stream == NULL)
+    {
         displayFileSize(filePath, forcedType);
+    }
+    else
+    {
+        closedir(stream);
+        displayDirSize(filePath, forcedType);
+    }
 
     return 0;
 }
