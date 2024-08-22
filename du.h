@@ -43,4 +43,19 @@
  */
 #define OUTFMT "%d %s\t\t%s\n"
 
+/**
+ * @brief Placeholder name for the boolean
+ * type.
+ */
+typedef unsigned char boolean;
+
+/**
+ * @brief The states a boolean can take.
+ */
+enum
+{
+    B_FALSE,
+    B_TRUE
+};
+
 #endif // GUARD_DU_H_INCLUDED
