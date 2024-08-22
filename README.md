@@ -16,15 +16,12 @@ $ ./du-c text_file.txt
 However, it's possible to not provide any argument. If `du-c` realizes you aren't passing anything, it will operate on the current working directory.
 
 By default, it will search for the *widest* and *most appropriate* size type to print, that behavior can however be altered with a **forced type** argument. The list of possible arguments to force a type are:
-|---|-----------|
-|-b |Byte(s)    |
-|---|-----------|
-|-k |Kilobyte(s)|
-|---|-----------|
-|-m |Megabyte(s)|
-|---|-----------|
-|-g |Gigabyte(s)|
-|---|-----------|
+|Argument|Associated size|
+|--------|---------------|
+|-b|Byte(s)|
+|-k|Kilobyte(s)|
+|-m|Megabyte(s)|
+|-g|Gigabyte(S)|
 
 Here are some examples of how it would work:
 ```shell
