@@ -10,13 +10,14 @@
 /**
  * @param dirPath
  * @param forcedType
+ * @param ignoreHiddenFiles
  *
  * @brief Displays the size of a specific
  * directory (by adding its members').
  *
  * @returns sizeinfo_t
  */
-sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType);
+sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType, boolean ignoreHiddenFiles);
 /**
  * @brief Tries to open the current working
  * directory.

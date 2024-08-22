@@ -17,7 +17,7 @@ static char *concatenateDirPath(const char *dir, const char *nextEnt)
     return dirPath;
 }
 
-sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
+sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType, boolean ignoreHiddenFiles)
 {
     DIR *dir = tryToOpenDir(dirPath);
     struct dirent *entry = NULL;
@@ -36,10 +36,16 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
         if (strlen(entry->d_name) == 2 && strncmp(entry->d_name, POWD, 2) == STR_EQ)
             continue;
 
+        if (ignoreHiddenFiles == B_TRUE && strlen(entry->d_name) >= 2 && entry->d_name[0] == '.' && entry->d_name[1] != '/')
+        {
+            printf("[DEBUG]: Hidden file ignored: '%s'\n", entry->d_name);
+            continue;
+        }
+
         if (entry->d_type == TYPE_FILE)
             dirSize.sizeVal += displayFileSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
         else if (entry->d_type == TYPE_DIR)
-            dirSize.sizeVal += displayDirSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
+            dirSize.sizeVal += displayDirSize(concatenateDirPath(dirPath, entry->d_name), BYTE, ignoreHiddenFiles).sizeVal;
     }
 
     // By default, the sizes are in bytes, we just need to force this
