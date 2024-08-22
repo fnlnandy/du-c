@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 
     parseProgArgs(argc, argv, &filePath, &forcedType, &ignoreHiddenFiles);
 
-    if (filePath == NULL || strncmp(filePath, ".", 1) == STR_EQ)
+    if (filePath == NULL)
     {
         displayDirSize(".", forcedType, ignoreHiddenFiles);
         return 0;
