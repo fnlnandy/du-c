@@ -61,8 +61,10 @@ static inline boolean isArg(const char *src, const char *targetArg)
 
 static void parseProgArgs(int argc, char **argv, char **filePath, uint32_t *forcedType, boolean *ignoreHiddenFiles)
 {
+    // filePath will be NULL, so it will just print
+    // the current directory's info.
     if (argc == 0)
-        printUsageAndExit();
+        return;
 
     for (int i = 0; i < argc; ++i)
     {
