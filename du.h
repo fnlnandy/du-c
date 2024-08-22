@@ -37,4 +37,10 @@
  */
 #define POWD ".."
 
+/**
+ * @brief Represents the default output of
+ * a file/directory's size.
+ */
+#define OUTFMT "%d %s\t\t%s\n"
+
 #endif // GUARD_DU_H_INCLUDED

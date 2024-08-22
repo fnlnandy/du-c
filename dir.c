@@ -49,7 +49,7 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
     if (closedir(dir) != 0)
         FATAL("Unexpected error while closing directory '%s'. Aborting.\n", dirPath);
 
-    printf("%d %s -> %s\n", dirSize.sizeVal, getSizeStr(dirSize).sizeStr, dirPath);
+    printf(OUTFMT, dirSize.sizeVal, getSizeStr(dirSize).sizeStr, dirPath);
 
     return dirSize;
 }

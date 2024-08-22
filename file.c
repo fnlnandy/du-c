@@ -17,7 +17,7 @@ sizeinfo_t displayFileSize(const char *filePath, enum SizeCategory forcedType)
 
     sizeStr = getSizeStr(sizeInfo);
 
-    printf("%d %s -> %s\n", sizeInfo.sizeVal, sizeStr.sizeStr, filePath);
+    printf(OUTFMT, sizeInfo.sizeVal, sizeStr.sizeStr, filePath);
     fclose(toDisplay);
 
     return sizeInfo;
