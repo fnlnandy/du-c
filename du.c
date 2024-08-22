@@ -5,8 +5,6 @@
 #include "file.h"
 #include "dir.h"
 
-#define STR_EQ 0
-
 int main(int argc, char **argv)
 {
     argc--, argv++;

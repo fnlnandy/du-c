@@ -23,14 +23,20 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
     struct dirent *entry = NULL;
     sizeinfo_t dirSize = {.sizeCat = BYTE, .sizeVal = 0};
 
+    // Parsing every entry, since we need the sum to "approximately"
+    // guess the size of the passed directory.
     for (entry = readdir(dir); entry != NULL; entry = readdir(dir))
     {
-        // CWD and parent directory are NOT to be parsed.
-        if (strlen(entry->d_name) == 1 && entry->d_name[0] == '.')
+        // Compares the entry with the current directory (i.e. '.'), if
+        // it's equal then we ignore it.
+        if (strlen(entry->d_name) == 1 && entry->d_name[0] == CWD_)
             continue;
-        if (strlen(entry->d_name) == 2 && strncmp(entry->d_name, "..", 2) == 0)
+        // Compares the entry with the parent directory, if it's equal then we
+        // ignore it.
+        if (strlen(entry->d_name) == 2 && strncmp(entry->d_name, POWD, 2) == STR_EQ)
             continue;
-        else if (entry->d_type == TYPE_FILE)
+
+        if (entry->d_type == TYPE_FILE)
             dirSize.sizeVal += displayFileSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
         else if (entry->d_type == TYPE_DIR)
             dirSize.sizeVal += displayDirSize(concatenateDirPath(dirPath, entry->d_name), BYTE).sizeVal;
@@ -47,8 +53,6 @@ sizeinfo_t displayDirSize(const char *dirPath, enum SizeCategory forcedType)
 
     return dirSize;
 }
-
-#define CWD "."
 
 DIR *tryToOpenCurrentDir()
 {
