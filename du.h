@@ -11,10 +11,10 @@
  * @brief Macro that outputs a fatal
  * error to stderr and quits the program.
  */
-#define FATAL(fmt, ...)                    \
-    {                                      \
-        fprintf(stderr, fmt, __VA_ARGS__); \
-        exit(1);                           \
+#define FATAL(fmt, ...)                              \
+    {                                                \
+        fprintf(stderr, "FATAL: " fmt, __VA_ARGS__); \
+        exit(1);                                     \
     }
 
 /**
